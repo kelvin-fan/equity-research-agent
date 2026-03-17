@@ -1,6 +1,12 @@
 import streamlit as st
 from brief_generator import generate_brief, save_brief
 
+
+password = st.text_input("Enter password to access the app", type="password")
+if password != "dymon2026":
+    st.stop()
+
+
 st.set_page_config(
     page_title="Equity Research Agent",
     page_icon="📈",
