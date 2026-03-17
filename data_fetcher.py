@@ -224,6 +224,11 @@ def get_targeted_news(ticker: str, turning_points: list) -> list:
 
         articles = get_news_for_date(ticker, start_date, end_date, point["date"])
 
+        try: 
+            articles = get_news_for_date(ticker, start_date, end_date, point["date"])
+        except Exception: 
+            articles = []
+
         events.append({
             "date": point["date"],
             "price": point["price"],
