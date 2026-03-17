@@ -4,6 +4,8 @@ An automated equity research tool that generates structured one-page investment 
 
 Built as a demonstration of agentified investment workflows.
 
+**Live demo:** [equity-research-agent-zgvth6a9gbtwm87mmgx5fb.streamlit.app](https://equity-research-agent-zgvth6a9gbtwm87mmgx5fb.streamlit.app/)
+
 ---
 
 ## How It Works
@@ -15,7 +17,7 @@ data_fetcher.py     — pulls financials from yfinance, detects significant pric
                       anchored to each turning point
       ↓
 brief_generator.py  — formats data into structured prompts, calls Claude API,
-                      generates and saves the brief and chart
+                      generates and saves the brief
       ↓
 chart_generator.py  — builds an annotated Plotly chart with peaks and troughs marked
       ↓
@@ -32,7 +34,7 @@ equity-research-agent/
 ├── brief_generator.py      # Prompt engineering and Claude API calls
 ├── data_fetcher.py         # Data pipeline — yfinance + Finnhub
 ├── chart_generator.py      # Plotly chart generation
-├── output/                 # Generated briefs and charts saved here
+├── output/                 # Generated briefs saved here (local only)
 ├── .env                    # API keys (not committed)
 ├── requirements.txt        # Dependencies
 └── README.md
@@ -70,6 +72,22 @@ FINNHUB_API_KEY=your_key_here
 ```bash
 streamlit run app.py
 ```
+
+---
+
+## Cloud Deployment
+
+The app is deployed on Streamlit Community Cloud. To deploy your own instance:
+
+1. Fork this repository
+2. Go to [share.streamlit.io](https://share.streamlit.io) and connect your fork
+3. Add the following secrets in the Streamlit dashboard under **Advanced Settings**:
+```toml
+ANTHROPIC_API_KEY = "your_key_here"
+FINNHUB_API_KEY = "your_key_here"
+```
+
+Note: PNG chart export is disabled on cloud deployment — the interactive Plotly chart renders directly in the browser instead.
 
 ---
 
@@ -112,7 +130,7 @@ When no company-specific news is found around a turning point, the brief explici
 | anthropic | Claude API for brief generation |
 | streamlit | Web interface |
 | plotly | Interactive price chart |
-| kaleido | Static chart export to PNG |
+| kaleido | Static chart export to PNG (local only) |
 | python-dotenv | Environment variable management |
 
 ---
