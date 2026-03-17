@@ -23,10 +23,13 @@ def validate_ticker(ticker: str) -> bool:
     Returns:
         True if the ticker exists, False otherwise.
     """
-    stock = yf.Ticker(ticker)
-    info = stock.info
-    return "symbol" in info
-
+    try:
+        stock = yf.Ticker(ticker)
+        info = stock.info
+        return "symbol" in info
+    except Exception:
+        return False
+    
 
 def get_financials(ticker: str) -> dict:
     """
