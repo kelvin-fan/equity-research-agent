@@ -11,24 +11,6 @@ except Exception:
     FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
 finnhub_client = finnhub.Client(api_key=FINNHUB_API_KEY)
-
-
-def validate_ticker(ticker: str) -> bool:
-    """
-    Checks whether a given ticker symbol is valid.
-
-    Args:
-        ticker: The stock ticker symbol to validate.
-
-    Returns:
-        True if the ticker exists, False otherwise.
-    """
-    try:
-        stock = yf.Ticker(ticker)
-        info = stock.info
-        return "symbol" in info
-    except Exception:
-        return False
     
 
 def get_financials(ticker: str) -> dict:
@@ -252,13 +234,9 @@ def get_company_data(ticker: str) -> dict:
         ticker: The stock ticker symbol (e.g. 'AAPL', 'NVDA').
 
     Returns:
-        A dictionary containing financials, price history, and targeted news events,
-        or raises a ValueError if the ticker is invalid.
+        A dictionary containing financials, price history, and targeted news events.
     """
     ticker = ticker.upper().strip()
-
-    if not validate_ticker(ticker):
-        raise ValueError(f"Invalid ticker symbol: {ticker}")
 
     financials = get_financials(ticker)
     price_history = get_price_history(ticker)
