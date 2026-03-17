@@ -2,15 +2,6 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import yfinance as yf
-
-yf.set_tz_cache_location("/tmp")
-
-import requests
-session = requests.Session()
-session.headers.update({
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-})
-
 import finnhub
 try:
     import streamlit as st
@@ -32,7 +23,7 @@ def validate_ticker(ticker: str) -> bool:
     Returns:
         True if the ticker exists, False otherwise.
     """
-    stock = yf.Ticker(ticker, session=session)
+    stock = yf.Ticker(ticker)
     info = stock.info
     return "symbol" in info
 
@@ -47,7 +38,7 @@ def get_financials(ticker: str) -> dict:
     Returns:
         A dictionary containing key financial metrics and company info.
     """
-    stock = yf.Ticker(ticker, session=session)
+    stock = yf.Ticker(ticker)
     info = stock.info
 
     financials = {
@@ -82,7 +73,7 @@ def get_price_history(ticker: str, swing_threshold: float = 5.0) -> dict:
         A dictionary containing dates, closing prices, summary stats,
         and a list of significant swings with start/end dates and magnitudes.
     """
-    stock = yf.Ticker(ticker, session=session)
+    stock = yf.Ticker(ticker)
     history = stock.history(period="6mo")
 
     dates = [date.strftime("%Y-%m-%d") for date in history.index]
