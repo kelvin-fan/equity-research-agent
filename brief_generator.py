@@ -5,9 +5,14 @@ from datetime import datetime
 from data_fetcher import get_company_data
 from chart_generator import build_chart, save_chart
 
-load_dotenv()
+try:
+    import streamlit as st
+    ANTHROPIC_API_KEY = st.secrets["ANTHROPIC_API_KEY"]
+except Exception:
+    load_dotenv()
+    ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
-client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
 
 def format_financials(financials: dict) -> str:
@@ -85,6 +90,7 @@ def generate_brief(ticker: str) -> tuple:
         A tuple of (markdown brief string, Plotly figure, timestamp string).
     """
     timestamp = datetime.today().strftime("%Y%m%d_%H%M%S")
+    os.makedirs("output", exist_ok=True)
 
     print(f"Fetching data for {ticker}...")
     data = get_company_data(ticker)

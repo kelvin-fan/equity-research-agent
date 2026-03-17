@@ -3,15 +3,13 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import yfinance as yf
 import finnhub
+try:
+    import streamlit as st
+    FINNHUB_API_KEY = st.secrets["FINNHUB_API_KEY"]
+except Exception:
+    load_dotenv()
+    FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
-load_dotenv()
-
-FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
-finnhub_client = finnhub.Client(api_key=FINNHUB_API_KEY)
-
-load_dotenv()
-
-FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 finnhub_client = finnhub.Client(api_key=FINNHUB_API_KEY)
 
 
