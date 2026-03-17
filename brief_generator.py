@@ -3,7 +3,7 @@ import anthropic
 from dotenv import load_dotenv
 from datetime import datetime
 from data_fetcher import get_company_data
-from chart_generator import build_chart, save_chart
+from chart_generator import build_chart
 
 try:
     import streamlit as st
@@ -100,7 +100,6 @@ def generate_brief(ticker: str) -> tuple:
 
     print(f"Generating chart...")
     fig = build_chart(data["price_history"], data["events"])
-    chart_path = save_chart(fig, ticker, timestamp)
 
     print("Generating brief...")
     price = data["price_history"]
