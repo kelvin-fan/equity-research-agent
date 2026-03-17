@@ -39,6 +39,8 @@ with col2:
     st.write("")
     generate_button = st.button("Generate Brief", type="primary")
 
+st.caption("⚠️ Currently supports US-listed equities only (NYSE, NASDAQ). International tickers are not supported.")
+
 if generate_button and ticker_input:
     with st.spinner(f"Researching {ticker_input}..."):
         try:
@@ -49,6 +51,11 @@ if generate_button and ticker_input:
             st.session_state.filepath = filepath
         except ValueError as e:
             st.error(f"Error: {e}")
+        except Exception as e:
+            if "RateLimit" in str(type(e).__name__) or "rate" in str(e).lower():
+                st.warning("⚠️ Yahoo Finance is temporarily rate limiting requests from this server. Please wait 1-2 minutes and try again.")
+            else:
+                st.error(f"An unexpected error occurred: {type(e).__name__}")
 
 elif generate_button and not ticker_input:
     st.warning("Please enter a ticker symbol.")
