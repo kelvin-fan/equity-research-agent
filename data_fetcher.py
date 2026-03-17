@@ -79,6 +79,9 @@ def get_price_history(ticker: str, swing_threshold: float = 5.0) -> dict:
     dates = [date.strftime("%Y-%m-%d") for date in history.index]
     closes = [round(price, 2) for price in history["Close"].tolist()]
 
+    if not closes:
+        raise ValueError(f"No price history available for {ticker}. The ticker may be delisted or unsupported.")
+
     # --- Zigzag Detection ---
     extreme_price = closes[0]
     extreme_date = dates[0]
